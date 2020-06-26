@@ -16,7 +16,17 @@ router.post('/', [check('name', 'Name is Required').not().isEmpty(),
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     }
-    res.send('post')
+    // if user exist
+
+    const { name, email, password } = req.body
+
+    //get users gravatar
+
+    // encrypt password
+
+    // return jsonwebtoken
+
+    res.send('users route')
 })
 
 module.exports = router
