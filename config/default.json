@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://kilo:yrdJHLGjoitL9KVT@cluster0-gbqcf.mongodb.net/<dbname>?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://kilo:yrdJHLGjoitL9KVT@cluster0-gbqcf.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    "jwtSecret":"mysecrettoken"
 }
