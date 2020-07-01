@@ -15,7 +15,8 @@ router.get('/',auth, async(req, res) => {
     try{
         const user = await User.findById(req.user.id).select('-password')// does not returning password
         res.json(user)
-        }catch(err){
+        }
+        catch(err){
         console.error(err)
         res.status(500).send('server error')
     }
@@ -67,11 +68,7 @@ async (req, res) => {
                 }
                 res.json({ token})
             })
-
-        //  return res.send('user registered')
-            
-
-
+        
     }catch(err){
         res.status(500).send('server error',err)
 
