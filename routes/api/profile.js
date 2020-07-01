@@ -3,10 +3,11 @@ const router = express.Router()
 const auth = require('../../middleware/auth')
 const Profile = require('../../models/Profile')
 const User = require ('../../models/Users')
-const { populate } = require('../../models/Users')
-//@route GET api/profile/me
-//@ desc Test Route
-// @access Public
+const {check,validationResult}=require('express-validator/check')
+
+// @route GET api/profile/me
+// @desc get current user profile
+// @access Private
 
 router.get('/me',auth,async(req, res) => {
     try{
@@ -20,6 +21,20 @@ router.get('/me',auth,async(req, res) => {
         res.status(500).send('server profile error')
         
     }
+})
+
+
+
+// @route POST api/profile
+// @desc create or update user profile
+// @access Private
+
+router.post('/',[auth,[
+    check('status','status is required').not().isEmpty(),
+    check('skills','skills is required').not().isEmpty()]],
+    async(req,res)=>{
+        const errors=validationResult(req) //03.31 for me
+
 })
 
 module.exports = router
