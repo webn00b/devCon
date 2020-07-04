@@ -4,6 +4,8 @@ const auth = require('../../middleware/auth')
 const Profile = require('../../models/Profile')
 const User = require('../../models/Users')
 const { check, validationResult } = require('express-validator')
+const request = require('request')
+const config = require('config')
 
 // @route GET api/profile/me
 // @desc get current user profile
@@ -255,6 +257,33 @@ router.delete('/education/:exp_id', auth, async(req, res) => {
         res.json(profile)
     } catch (error) {
         console.error(error.message)
+        res.status(500).json({ msg: "server error" })
+    }
+})
+
+
+//@route GET api/profile/github/:username
+//@des  Get user repos from gitHub
+//@access Public
+
+router.get('/github/:username', (req, res) => {
+    try {
+        const options = {
+            uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${
+                config.get('githubClientId')}&client+secret=${config.get('githubSecret')}`,
+            method: 'GET',
+            headers: { 'user-agent': 'node.js' }
+        }
+        request(options, (error, response, body) => {
+            if (error) console.error(error)
+            if (response.statusCode !== 200) {
+                return res.status(400).json({ msg: "no GH user found" })
+            }
+            res.json(JSON.parse(body))
+        })
+
+    } catch (error) {
+        console.error(error)
         res.status(500).json({ msg: "server error" })
     }
 })
