@@ -1,12 +1,23 @@
-import React from 'react'
+import {Link} from 'react-router-dom'
+import React, { useState } from 'react'
+import e from 'express';
 
 const Register = () => {
+    const [formData,setFormData]=useState({
+        name:'',
+        email:'',
+        password:'',
+        password2:''
+    })
+    const {name,email,password,password2}=formData;//get variables from state
+    const onChange =(e)=>{setFormData({...formData,name:e.target.value})}
+
     return (<>
             
-    <section class="container">
-      <h1 class="large text-primary">Sign Up</h1>
-      <p class="lead"><i class="fas fa-user"></i> Create Your Account</p>
-      <form class="form" action="create-profile.html">
+    <section className="container">
+      <h1 className="large text-primary">Sign Up</h1>
+      <p class="lead"><i className="fas fa-user"></i> Create Your Account</p>
+      <form className="form" action="create-profile.html">
         <div class="form-group">
           <input type="text" placeholder="Name" name="name" required />
         </div>
@@ -17,7 +28,7 @@ const Register = () => {
             Gravatar email</small
           >
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="password"
             placeholder="Password"
@@ -25,7 +36,7 @@ const Register = () => {
             minLength="6"
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="password"
             placeholder="Confirm Password"
@@ -33,10 +44,10 @@ const Register = () => {
             minLength="6"
           />
         </div>
-        <input type="submit" class="btn btn-primary" value="Register" />
+        <input type="submit" className="btn btn-primary" value="Register" />
       </form>
-      <p class="my-1">
-        Already have an account? <a href="login.html">Sign In</a>
+      <p className="my-1">
+        Already have an account? <Link to ="login.html">Sign In</Link>
       </p>
     </section>
             
