@@ -14,7 +14,7 @@ const Register = () => {
     const onSubmit=(e)=>{
         e.preventDefault()
         if(password!=password2){
-            console.log('password did not match');
+            return console.log('password did not match');
             
         }
         console.log(formData);
@@ -25,12 +25,12 @@ const Register = () => {
     <section className="container">
       <h1 className="large text-primary">Sign Up</h1>
       <p class="lead"><i className="fas fa-user"></i> Create Your Account</p>
-      <form className="form" action="create-profile.html">
+      <form className="form" onSubmit={(e)=>onSubmit(e)}>
         <div class="form-group">
           <input type="text" value={name} placeholder="Name" name="name" onChange={onChange} required />
         </div>
         <div class="form-group">
-          <input type="email" value={email} placeholder="Email Address" name="email" />
+          <input type="email" value={email} placeholder="Email Address" onChange={onChange} name="email" />
           <small class="form-text"
             >This site uses Gravatar so if you want a profile image, use a
             Gravatar email</small
@@ -40,6 +40,7 @@ const Register = () => {
           <input
             type="password"
             value={password}
+            onChange={onChange}
             placeholder="Password"
             name="password"
             minLength="6"
@@ -47,6 +48,7 @@ const Register = () => {
         </div>
         <div className="form-group">
           <input
+          onChange={onChange}
             type="password"
             placeholder="Confirm Password"
             value={password2}
@@ -54,7 +56,7 @@ const Register = () => {
             minLength="6"
           />
         </div>
-        <input onSubmit={onSubmit} type="submit" className="btn btn-primary" value="Register" />
+        <input  type="submit" className="btn btn-primary" value="Register" />
       </form>
       <p className="my-1">
         Already have an account? <Link to ="login">Sign In</Link>
