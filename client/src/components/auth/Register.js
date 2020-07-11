@@ -24,14 +24,14 @@ const Register = () => {
             
     <section className="container">
       <h1 className="large text-primary">Sign Up</h1>
-      <p class="lead"><i className="fas fa-user"></i> Create Your Account</p>
+      <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
       <form className="form" onSubmit={(e)=>onSubmit(e)}>
-        <div class="form-group">
+        <div className="form-group">
           <input type="text" value={name} placeholder="Name" name="name" onChange={onChange} required />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input type="email" value={email} placeholder="Email Address" onChange={onChange} name="email" />
-          <small class="form-text"
+          <small className="form-text"
             >This site uses Gravatar so if you want a profile image, use a
             Gravatar email</small
           >

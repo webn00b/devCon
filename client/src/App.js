@@ -6,6 +6,7 @@ import Register from './components/auth/Register'
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './store'
+import Login from './components/auth/Login';
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                 <Switch>
                 <Route exact path='/' component={Landing}/>
                 <Route exact path='/register' component={Register}/>
+                <Route exact path='/login' component={Login}/>
                 </Switch>
             </>
         </Router>
