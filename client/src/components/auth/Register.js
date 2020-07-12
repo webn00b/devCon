@@ -1,8 +1,9 @@
 import {Link} from 'react-router-dom'
 import React, { useState } from 'react'
+import {connect} from "react-redux";
+import {set_alert,disable_alert} from '../../reducers/alertReducer'
 
-
-const Register = () => {
+const Register = (props) => {
     const [formData,setFormData]=useState({
         name:'',
         email:'',
@@ -14,8 +15,9 @@ const Register = () => {
     const onSubmit=(e)=>{
         e.preventDefault()
         if(password!=password2){
-            return console.log('password did not match');
-            
+
+            props.set_alert('password did not match')
+            return console.log('password did not match','danger');
         }
         console.log(formData);
         
@@ -67,4 +69,8 @@ const Register = () => {
     )
 }
 
-export default Register
+Register.propTypes={
+    set_alert:PropTypes.func.isRequired
+}
+
+export default connect(null,{set_alert,disable_alert})(Register)

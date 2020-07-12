@@ -24,7 +24,7 @@ export const set_alert=(msg,alertType)=> (dispatch)=>{
 }
 
 
-const disable_alert=(x)=>{
+export const disable_alert=(x)=>{
     return{
         type:REMOVE_ALERT,
         payload:x
