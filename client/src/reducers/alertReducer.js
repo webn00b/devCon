@@ -1,14 +1,14 @@
 import {v4 as uuid} from 'uuid'
 const initialState=[]
 
-const SET_ALERT='SET_ALERT'
-const REMOVE_ALERT='REMOVE_ALERT'
+export const SET_ALERT='ALERT/SET_ALERT'
+const REMOVE_ALERT='ALERT/REMOVE_ALERT'
 
 const alertReducer = (state=initialState,action)=>{
     const {type,payload}=action;
     switch (type) {
         case SET_ALERT: return [...state,payload]
-        case REMOVE_ALERT:return[...state,state.filter((x)=>x.id!=payload)]
+        case REMOVE_ALERT:return[...state,state.filter((x)=>x.id!==payload)]
         default:return state
     }
 }

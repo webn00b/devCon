@@ -14,7 +14,7 @@ const Login = () => {
           Invalid credentials
         </div> */}
         <h1 className="large text-primary">Sign In</h1>
-        <p className="lead"><i class="fas fa-user"></i> Sign into Your Account</p>
+        <p className="lead"><i className="fas fa-user"></i> Sign into Your Account</p>
         <form className="form" action="dashboard.html">
           <div className="form-group">
             <input
@@ -37,7 +37,7 @@ const Login = () => {
           </div>
           <input type="submit" className="btn btn-primary" value="Login" />
         </form>
-        <p classname="my-1">
+        <p className="my-1">
           Don't have an account? <Link to="register">Sign Up</Link>
         </p>
       </section>
