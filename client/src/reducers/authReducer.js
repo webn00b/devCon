@@ -1,7 +1,7 @@
 import axios from "axios";
 import {set_alert} from './alertReducer'
-const REGISTER_SUCCESS = 'AUTH/REGISTER_SUCCESS'
-const REGISTER_FAIL = 'AUTH/REGISTER_FAIL'
+import {REGISTER_FAIL, REGISTER_SUCCESS,USER_LOADED,AUTH_ERROR} from "./actions";
+import setAuthToken from "../utils/setAuthToken";
 
 const initialState = {
     token: localStorage.getItem('token'),
@@ -9,15 +9,35 @@ const initialState = {
     loading: true,
     user: null
 }
+//Load user
+export const loadUser=()=>async (dispatch)=>{
+    if(localStorage.token){
+        setAuthToken(localStorage.token)
+    }
+    try {
+        const res = await axios.get('/api/auth')
+        dispatch({
+            type:USER_LOADED,
+            payload:res.data
+        })
+    }catch (err) {
+        dispatch({
+            type:AUTH_ERROR
+        })
+    }
+}
 
 export default function (state = initialState, action) {
     const {type, payload} = action
     switch (type) {
+        case USER_LOADED:return {...state,isAuthenticated: true,loading: false,user: payload}
+
         case REGISTER_SUCCESS:
             localStorage.setItem('token',payload.token)
             return {
                 ...state,...payload,isAuthenticated: true,loading: false
             }
+        case AUTH_ERROR:
         case REGISTER_FAIL:
             localStorage.removeItem('token')
             return {
@@ -29,7 +49,6 @@ export default function (state = initialState, action) {
     }
 
 }
-//actions
 
 //register user
 

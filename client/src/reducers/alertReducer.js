@@ -1,8 +1,6 @@
 import {v4 as uuid} from 'uuid'
+import {REMOVE_ALERT, SET_ALERT} from "./actions";
 const initialState=[]
-
-export const SET_ALERT='ALERT/SET_ALERT'
-const REMOVE_ALERT='ALERT/REMOVE_ALERT'
 
 const alertReducer = (state=initialState,action)=>{
     const {type,payload}=action;
