@@ -1,4 +1,4 @@
-import {axios} from "axios";
+import axios from "axios";
 import {set_alert} from './alertReducer'
 const REGISTER_SUCCESS = 'AUTH/REGISTER_SUCCESS'
 const REGISTER_FAIL = 'AUTH/REGISTER_FAIL'
@@ -42,11 +42,13 @@ export const register=({name,email,password})=>async (dispatch)=>{
     const body = JSON.stringify({name,email,password})
     try {
         const res = await axios.post('/api/users/',body,config)
+
         dispatch({
             type:REGISTER_SUCCESS,
             payload: res.data
         })
-    }catch (e) {
+    }catch (err) {
+        //get all errors from response
         const errors=err.response.data.errors
         if(errors){
             errors.forEach(err=>dispatch(set_alert(err.msg,'danger')))
