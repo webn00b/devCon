@@ -1,6 +1,6 @@
 import axios from "axios";
 import {set_alert} from './alertReducer'
-import {REGISTER_FAIL, REGISTER_SUCCESS,USER_LOADED,AUTH_ERROR,LOGIN_SUCCESS,LOGIN_FAIL} from "./actions-types";
+import {REGISTER_FAIL, REGISTER_SUCCESS,USER_LOADED,AUTH_ERROR,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT} from "./actions-types";
 import setAuthToken from "../utils/setAuthToken";
 
 const initialState = {
@@ -37,13 +37,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,...payload,isAuthenticated: true,loading: false
             }
+        case LOGOUT:
         case LOGIN_FAIL:
         case AUTH_ERROR:
         case REGISTER_FAIL:
             localStorage.removeItem('token')
             return {
-                ...state,token: null,isAuthenticated: false,user: null
+                ...state,token: null,isAuthenticated: false,user: null, loading: false,
             }
+
         default:
             return state
 
@@ -108,4 +110,10 @@ export const logIn=(email,password)=>async (dispatch)=>{
             type:LOGIN_FAIL
         })
     }
+}
+//Logout
+export const logout=()=>(dispatch)=>{
+    dispatch({
+        type:LOGOUT
+    })
 }
