@@ -1,17 +1,20 @@
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import React, {useState} from 'react'
 import {connect} from "react-redux";
 import {set_alert, disable_alert} from '../../reducers/alertReducer'
 import {register} from "../../reducers/authReducer";
 import PropTypes from 'prop-types'
 
-const Register = ({set_alert, register}) => {
+const Register = ({set_alert, register,isAuthenticated}) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
         password2: ''
     })
+    if(isAuthenticated){
+        return <Redirect to={"/dashboard"}/>
+    }
     const {name, email, password, password2} = formData;//get variables from state
     const onChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value})
@@ -77,7 +80,13 @@ const Register = ({set_alert, register}) => {
 
 Register.propTypes = {
     set_alert: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
+    isAuthenticated:PropTypes.bool
 }
 
-export default connect(null, {set_alert, disable_alert, register})(Register)
+const mapStateToProps=(state)=>({
+    isAuthenticated:state.authReducer.isAuthenticated
+})
+
+
+export default connect(mapStateToProps, {set_alert, disable_alert, register})(Register)

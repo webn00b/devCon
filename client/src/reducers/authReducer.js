@@ -1,6 +1,6 @@
 import axios from "axios";
 import {set_alert} from './alertReducer'
-import {REGISTER_FAIL, REGISTER_SUCCESS,USER_LOADED,AUTH_ERROR} from "./actions";
+import {REGISTER_FAIL, REGISTER_SUCCESS,USER_LOADED,AUTH_ERROR,LOGIN_SUCCESS,LOGIN_FAIL} from "./actions-types";
 import setAuthToken from "../utils/setAuthToken";
 
 const initialState = {
@@ -31,12 +31,13 @@ export default function (state = initialState, action) {
     const {type, payload} = action
     switch (type) {
         case USER_LOADED:return {...state,isAuthenticated: true,loading: false,user: payload}
-
+        case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
             localStorage.setItem('token',payload.token)
             return {
                 ...state,...payload,isAuthenticated: true,loading: false
             }
+        case LOGIN_FAIL:
         case AUTH_ERROR:
         case REGISTER_FAIL:
             localStorage.removeItem('token')
@@ -66,6 +67,7 @@ export const register=({name,email,password})=>async (dispatch)=>{
             type:REGISTER_SUCCESS,
             payload: res.data
         })
+        dispatch(loadUser())
     }catch (err) {
         //get all errors from response
         const errors=err.response.data.errors
@@ -75,5 +77,35 @@ export const register=({name,email,password})=>async (dispatch)=>{
     dispatch({
         type:REGISTER_FAIL
     })
+    }
+}
+
+
+//login user
+
+export const logIn=(email,password)=>async (dispatch)=>{
+    const config ={
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    const body = JSON.stringify({email,password})
+    try {
+        const res = await axios.post('/api/auth/',body,config)
+
+        dispatch({
+            type:LOGIN_SUCCESS,
+            payload: res.data
+        })
+        dispatch(loadUser())
+    }catch (err) {
+        //get all errors from response
+        const errors=err.response.data.errors
+        if(errors){
+            errors.forEach(err=>dispatch(set_alert(err.msg,'danger')))
+        }
+        dispatch({
+            type:LOGIN_FAIL
+        })
     }
 }

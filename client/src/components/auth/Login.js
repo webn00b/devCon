@@ -1,13 +1,24 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
+import {connect} from "react-redux";
+import PropTypes from 'prop-types'
+import {logIn} from "../../reducers/authReducer";
 
-const Login = () => {
-    const[formdData,setFormData]=useState({
+const Login = ({isAuthenticated,logIn}) => {
+    const[formData,setFormData]=useState({
         email:'',
         password:''
     })
-    const {email,password}=formdData
-    const onChange=(e)=>{setFormData({...formdData,[e.target.name]:e.target.value})}
+    const {email,password}=formData
+    const onSubmit=(e)=>{
+        e.preventDefault();
+        logIn(email,password)
+    }
+    //redirect if logged in
+    if(isAuthenticated){
+        return <Redirect to={"/dashboard"}/>
+    }
+    const onChange=(e)=>{setFormData({...formData,[e.target.name]:e.target.value})}
     return (<>
         <section className="container">
         {/* <div className="alert alert-danger">
@@ -15,7 +26,7 @@ const Login = () => {
         </div> */}
         <h1 className="large text-primary">Sign In</h1>
         <p className="lead"><i className="fas fa-user"></i> Sign into Your Account</p>
-        <form className="form" action="dashboard.html">
+        <form className="form" onSubmit={e=>onSubmit(e)}>
           <div className="form-group">
             <input
               type="email"
@@ -44,6 +55,12 @@ const Login = () => {
       </> )
 }
 
+Login.propTypes={
+    logIn:PropTypes.func.isRequired,
+    isAuthenticated:PropTypes.bool
+}
+const mapStateToProps=(state)=>({
+    isAuthenticated:state.authReducer.isAuthenticated
+})
 
-
-export default Login
+export default connect(mapStateToProps,{logIn})(Login)
