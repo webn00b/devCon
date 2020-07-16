@@ -1,6 +1,15 @@
 import axios from "axios";
 import {set_alert} from './alertReducer'
-import {REGISTER_FAIL, REGISTER_SUCCESS,USER_LOADED,AUTH_ERROR,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT} from "./actions-types";
+import {
+    REGISTER_FAIL,
+    REGISTER_SUCCESS,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT,
+    CLEAR_PROFILE
+} from "./actions-types";
 import setAuthToken from "../utils/setAuthToken";
 
 const initialState = {
@@ -115,5 +124,8 @@ export const logIn=(email,password)=>async (dispatch)=>{
 export const logout=()=>(dispatch)=>{
     dispatch({
         type:LOGOUT
+    })
+    dispatch({
+        type:CLEAR_PROFILE
     })
 }
