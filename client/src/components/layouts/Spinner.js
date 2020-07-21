@@ -1,5 +1,5 @@
 import React from "react";
-import Spinner from '../../img/Spinner-1s-200px.gif'
+import Spinner from '../../img/spin.svg'
 
 export default () => (
     <>

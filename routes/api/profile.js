@@ -51,8 +51,11 @@ router.post('/', [auth, [
         if (bio) profileFields.bio = bio
         if (status) profileFields.status = status
         if (githubusername) profileFields.githubusername = githubusername
-        if (skills) {
-            profileFields.skills = skills.split(',').map(x => x.trim())
+        // if (skills) {
+        //     profileFields.skills = skills.split(',').map(x => x.trim())
+        // }
+        if (typeof skills !== 'undefined') {
+            profileFields.skills = skills.split(',');
         }
         //build social object
 

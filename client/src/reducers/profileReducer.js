@@ -9,8 +9,8 @@ const initialState = {
     loading: true,
     errors: {}
 }
-export default function (state = initialState,action) {
-    const {type, payload}=action;
+export default function (state = initialState, action) {
+    const {type, payload} = action;
     switch (type) {
         case GET_PROFILE :
             return {...state, profile: payload, loading: false}
@@ -18,7 +18,8 @@ export default function (state = initialState,action) {
             return {...state, error: payload, loading: false}
         default:
             return state
-        case CLEAR_PROFILE:return {...state,profile:null,repos: [],loading: false }
+        case CLEAR_PROFILE:
+            return {...state, profile: null, repos: [], loading: false}
     }
 }
 
@@ -37,4 +38,38 @@ export const getCurrentProfile = () => async (dispatch) => {
             payload: {msg: err.response.statusText, status: err.response.status}
         })
     }
+}
+
+//Create or update profile
+export const createProfile = (formData, history, edit = false) => async (dispatch) => {
+
+    try {
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const res = await axios.post('/api/profile', formData, config)
+        dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+        })
+
+        dispatch(set_alert(edit ? 'Profile Updated' : 'Profile Created'))
+        if (!edit) {
+            history.push('/dashboard')
+        }
+
+    } catch (err) {
+        const errors = err.response.data.errors
+        if (errors) {
+            errors.forEach(error => dispatch(set_alert(error.msg, 'danger')))
+        }
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
+        })
+    }
+
 }

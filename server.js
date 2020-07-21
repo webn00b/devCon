@@ -3,7 +3,6 @@ const connectDB = require('./config/db')
 const app = express()
 
 // connect database
-
 connectDB()
 
 //init Middleware
@@ -18,6 +17,7 @@ app.use('/api/users', require('./routes/api/users'))
 app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/post', require('./routes/api/post'))
 app.use('/api/profile', require('./routes/api/profile'))
+
 
 
 const PORT = process.env.PORT || 5000
