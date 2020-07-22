@@ -83,7 +83,7 @@ async (req, res) => {
     }
 
 
-   return res.send('users route',token)
+   return res.send('users route')
 })
 
 module.exports = router

@@ -4,37 +4,37 @@ import {getCurrentProfile} from '../../reducers/profileReducer'
 import {connect} from 'react-redux'
 import Spinner from "../layouts/Spinner";
 import {Link} from "react-router-dom";
+import DashboardActions from "./DashboardActions";
 
-
-const Dashboard = ({profile:{profile,loading},auth:{user},getCurrentProfile}) => {
-    useEffect(()=>{
+const Dashboard = ({profile: {profile, loading}, auth: {user}, getCurrentProfile}) => {
+    useEffect(() => {
         getCurrentProfile()
-    },[])
-    return loading&&profile===null?<Spinner/>:<>
-    <h1 className={"large text-primary"}>Dashboard</h1>
+    }, [])
+    return loading && profile === null ? <Spinner/> : <>
+        <h1 className={"large text-primary"}>Dashboard</h1>
         <p className={"lead"}>
-            <i className={"fas fa-user"}></i>Welcome {user&&user.name}
+            <i className={"fas fa-user"}></i>Welcome {user && user.name}
         </p>
 
-    {profile!==null?(<>has profile</>):(<>
-        <p> You has not created profile,please add some info</p>
-        <Link to={'/create-profile'} className={'btn btn-primary my-1'}>
-            Create Profile
-        </Link>
-    </>)}
+        {profile !== null ? (<><DashboardActions/></>) : (<>
+            <p> You has not created profile,please add some info</p>
+            <Link to={'/create-profile'} className={'btn btn-primary my-1'}>
+                Create Profile
+            </Link>
+        </>)}
     </>
 }
 
 
 Dashboard.propTypes = {
     profile: PropTypes.object.isRequired,
-    auth:PropTypes.object.isRequired,
-    getCurrentProfile:PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired,
 
 }
 const mapStateToProps = (state) => ({
     profile: state.profileReducer,
-    auth:state.authReducer
+    auth: state.authReducer
 
 })
 
