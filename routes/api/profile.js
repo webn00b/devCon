@@ -173,7 +173,7 @@ router.put('/experience', [auth, [
     try {
         const profile = await Profile.findOne({user: req.user.id})
         profile.experience.unshift(newExp)
-        await profile.save
+        await profile.save()
         res.json(profile)
 
     } catch (error) {
@@ -207,7 +207,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 //@delete  put profile education
 //@access PRIVATE
 
-router.put('/education/', [auth, [
+router.put('/education', [auth, [
     check('school', 'school is required').not().isEmpty(),
     check('degree', 'degree is required').not().isEmpty(),
     check('fieldofstudy', 'fieldofstudy').not().isEmpty(),
