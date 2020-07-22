@@ -174,11 +174,12 @@ router.put('/experience', [auth, [
         const profile = await Profile.findOne({user: req.user.id})
         profile.experience.unshift(newExp)
         await profile.save
-        res.json({profile})
+        res.json(profile)
 
     } catch (error) {
         console.error(error.message)
-        res.status(500).json({msg: "server error"})
+        // res.status(500).json({msg: "server error"})
+       res.status(500).json(error.message)
     }
 })
 
