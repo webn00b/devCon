@@ -8,7 +8,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
-    CLEAR_PROFILE
+    CLEAR_PROFILE, DELETE_ACCOUNT
 } from "./actions-types";
 import setAuthToken from "../utils/setAuthToken";
 
@@ -50,6 +50,7 @@ export default function (state = initialState, action) {
         case LOGIN_FAIL:
         case AUTH_ERROR:
         case REGISTER_FAIL:
+        case DELETE_ACCOUNT:
             localStorage.removeItem('token')
             return {
                 ...state,token: null,isAuthenticated: false,user: null, loading: false,

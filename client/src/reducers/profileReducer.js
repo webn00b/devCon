@@ -1,4 +1,4 @@
-import {CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE} from "./actions-types";
+import {CLEAR_PROFILE, DELETE_ACCOUNT, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE} from "./actions-types";
 import axios from 'axios'
 import {set_alert} from "./alertReducer";
 
@@ -137,4 +137,57 @@ export const addEducation=(formData,history,edit=true)=>async (dispatch)=>{
             payload: {msg: err.response.statusText, status: err.response.status}
         })
     }
+}
+
+//delete experience
+export const deleteExperience=(id)=>async (dispatch)=>{
+    try {
+        const res = await axios.delete(`/api/profile/experience/${id}`)
+        dispatch({
+            type:UPDATE_PROFILE,
+            payload:res.data
+        })
+        dispatch(set_alert('Experience removed','success'))
+    }catch (err) {
+        dispatch({
+            type:PROFILE_ERROR,
+            payload:{msg:err.response.statusText,status:err.response.status}
+        })
+    }
+}
+
+
+//delete education
+export const deleteEducation=(id)=>async (dispatch)=>{
+    try {
+        const res = await axios.delete(`/api/profile/education/${id}`)
+        dispatch({
+            type:UPDATE_PROFILE,
+            payload:res.data
+        })
+        dispatch(set_alert('Education removed','success'))
+    }catch (err) {
+        dispatch({
+            type:PROFILE_ERROR,
+            payload:{msg:err.response.statusText,status:err.response.status}
+        })
+    }
+}
+
+//delete profile an account
+export const deleteAccount=(id)=>async (dispatch)=>{
+    if(window.confirm('are you sure?')){
+        try {
+            const res = await axios.delete(`/api/profile/`)
+            dispatch({type:CLEAR_PROFILE})
+            dispatch({type:DELETE_ACCOUNT})
+            dispatch(set_alert('Your account has been deleted','success'))
+        }catch (err) {
+            dispatch({
+                type:PROFILE_ERROR,
+                payload:{msg:err.response.statusText,status:err.response.status}
+            })
+        }
+    }
+
 }
