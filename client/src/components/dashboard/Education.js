@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Moment from "react-moment";
+import {deleteEducation} from "../../reducers/profileReducer";
 
-
-const Education = ({education}) => {
+const Education = ({education,deleteEducation}) => {
     const educations = education.map((v) => {
         return <tr key={v._id}>
             <td>{v.school}</td>
@@ -14,7 +14,7 @@ const Education = ({education}) => {
                 v.to===null?(' Now'):(<Moment format={"YYYY/MM/DD"}>{v.to}</Moment>)}
             </td>
             <td>
-                <button className={"btn btn-danger"}>Delete</button>
+                <button className={"btn btn-danger"} onClick={()=>{deleteEducation(v._id)}}>Delete</button>
             </td>
         </tr>
     })
@@ -36,7 +36,8 @@ const Education = ({education}) => {
 }
 
 Education.propTypes = {
-    education:PropTypes.array.isRequired
+    education:PropTypes.array.isRequired,
+    deleteEducation:PropTypes.func.isRequired
 }
 
-export default connect(null,null)(Education)
+export default connect(null, {deleteEducation})(Education)

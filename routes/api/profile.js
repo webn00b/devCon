@@ -123,7 +123,8 @@ router.get('/user/:user_id', async (req, res) => {
 
 router.get('/user/:user_id', auth, async (req, res) => {
     try {
-        //@todo - remove users posts
+        // remove all posts
+        await Post.deleteMany({user:req.user.id})
         //Remove profile
         await Profile.findOneAndRemove({user: req.user_id})
 
