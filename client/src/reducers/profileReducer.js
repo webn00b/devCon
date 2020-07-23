@@ -1,4 +1,12 @@
-import {CLEAR_PROFILE, DELETE_ACCOUNT, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE} from "./actions-types";
+import {
+    CLEAR_PROFILE,
+    DELETE_ACCOUNT,
+    GET_PROFILE,
+    GET_PROFILES,
+    GET_REPOS,
+    PROFILE_ERROR,
+    UPDATE_PROFILE
+} from "./actions-types";
 import axios from 'axios'
 import {set_alert} from "./alertReducer";
 
@@ -12,6 +20,8 @@ const initialState = {
 export default function (state = initialState, action) {
     const {type, payload} = action;
     switch (type) {
+        case GET_PROFILES:
+            return {...state, profiles: payload, loading: false}
         case UPDATE_PROFILE:
         case GET_PROFILE :
             return {...state, profile: payload, loading: false}
@@ -19,6 +29,8 @@ export default function (state = initialState, action) {
             return {...state, error: payload, loading: false}
         case CLEAR_PROFILE:
             return {...state, profile: null, repos: [], loading: false}
+        case GET_REPOS:
+            return {...state, repos: payload, loading: false}
         default:
             return state
 
@@ -28,6 +40,7 @@ export default function (state = initialState, action) {
 
 // GET current user profile
 export const getCurrentProfile = () => async (dispatch) => {
+
     try {
         const res = await axios.get('/api/profile/me')
         dispatch({
@@ -41,6 +54,57 @@ export const getCurrentProfile = () => async (dispatch) => {
         })
     }
 }
+
+
+// GET profiles
+export const getProfiles = () => async (dispatch) => {
+    dispatch({type: CLEAR_PROFILE}) // clear profile
+    try {
+        const res = await axios.get('/api/profile')
+        dispatch({
+            type: GET_PROFILES,
+            payload: res.data
+        })
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
+        })
+    }
+}
+
+// GET profile by id
+export const getProfileById = (userId) => async (dispatch) => {
+    try {
+        const res = await axios.get(`/api/profile/user/${userId}`)
+        dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+        })
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
+        })
+    }
+}
+
+// GET github repos
+export const getGithub = (username) => async (dispatch) => {
+    try {
+        const res = await axios.get(`/api/profile/github/${username}`)
+        dispatch({
+            type: GET_REPOS,
+            payload: res.data
+        })
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
+        })
+    }
+}
+
 
 //Create or update profile
 export const createProfile = (formData, history, edit = false) => async (dispatch) => {
@@ -58,7 +122,7 @@ export const createProfile = (formData, history, edit = false) => async (dispatc
             payload: res.data
         })
 
-        dispatch(set_alert(edit ? 'Profile Updated' : 'Profile Created','success'))
+        dispatch(set_alert(edit ? 'Profile Updated' : 'Profile Created', 'success'))
         if (!edit) {
             history.push('/dashboard')
         }
@@ -76,7 +140,7 @@ export const createProfile = (formData, history, edit = false) => async (dispatc
 
 }
 //add Experience
-export const addExperience=(formData,history,edit=false)=>async (dispatch)=>{
+export const addExperience = (formData, history, edit = false) => async (dispatch) => {
     try {
 
         const config = {
@@ -90,7 +154,7 @@ export const addExperience=(formData,history,edit=false)=>async (dispatch)=>{
             payload: res.data
         })
 
-        dispatch(set_alert('Experience added','success'))
+        dispatch(set_alert('Experience added', 'success'))
         if (!edit) {
             history.push('/dashboard')
         }
@@ -108,7 +172,7 @@ export const addExperience=(formData,history,edit=false)=>async (dispatch)=>{
 }
 
 //add Education
-export const addEducation=(formData,history,edit=true)=>async (dispatch)=>{
+export const addEducation = (formData, history, edit = true) => async (dispatch) => {
     try {
 
         const config = {
@@ -122,7 +186,7 @@ export const addEducation=(formData,history,edit=true)=>async (dispatch)=>{
             payload: res.data
         })
 
-        dispatch(set_alert('education added','success'))
+        dispatch(set_alert('education added', 'success'))
         if (!edit) {
             history.push('/dashboard')
         }
@@ -140,53 +204,53 @@ export const addEducation=(formData,history,edit=true)=>async (dispatch)=>{
 }
 
 //delete experience
-export const deleteExperience=(id)=>async (dispatch)=>{
+export const deleteExperience = (id) => async (dispatch) => {
     try {
         const res = await axios.delete(`/api/profile/experience/${id}`)
 
         dispatch({
-            type:UPDATE_PROFILE,
-            payload:res.data
+            type: UPDATE_PROFILE,
+            payload: res.data
         })
-        dispatch(set_alert('Experience removed','success'))
-    }catch (err) {
+        dispatch(set_alert('Experience removed', 'success'))
+    } catch (err) {
         dispatch({
-            type:PROFILE_ERROR,
-            payload:{msg:err.response.statusText,status:err.response.status}
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
         })
     }
 }
 
 
 //delete education
-export const deleteEducation=(id)=>async (dispatch)=>{
+export const deleteEducation = (id) => async (dispatch) => {
     try {
         const res = await axios.delete(`/api/profile/education/${id}`)
         dispatch({
-            type:UPDATE_PROFILE,
-            payload:res.data
+            type: UPDATE_PROFILE,
+            payload: res.data
         })
-        dispatch(set_alert('Education removed','success'))
-    }catch (err) {
+        dispatch(set_alert('Education removed', 'success'))
+    } catch (err) {
         dispatch({
-            type:PROFILE_ERROR,
-            payload:{msg:err.response.statusText,status:err.response.status}
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
         })
     }
 }
 
 //delete profile an account
-export const deleteAccount=(id)=>async (dispatch)=>{
-    if(window.confirm('are you sure?')){
+export const deleteAccount = (id) => async (dispatch) => {
+    if (window.confirm('are you sure?')) {
         try {
             const res = await axios.delete(`/api/profile/`)
-            dispatch({type:CLEAR_PROFILE})
-            dispatch({type:DELETE_ACCOUNT})
-            dispatch(set_alert('Your account has been deleted','success'))
-        }catch (err) {
+            dispatch({type: CLEAR_PROFILE})
+            dispatch({type: DELETE_ACCOUNT})
+            dispatch(set_alert('Your account has been deleted', 'success'))
+        } catch (err) {
             dispatch({
-                type:PROFILE_ERROR,
-                payload:{msg:err.response.statusText,status:err.response.status}
+                type: PROFILE_ERROR,
+                payload: {msg: err.response.statusText, status: err.response.status}
             })
         }
     }
