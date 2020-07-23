@@ -11,7 +11,7 @@ import Education from "./Education";
 const Dashboard = ({profile: {profile, loading}, auth: {user}, getCurrentProfile,deleteAccount}) => {
     useEffect(() => {
         getCurrentProfile()
-    }, [])
+    }, [getCurrentProfile])
     return loading && profile === null ? <Spinner/> : <>
         <h1 className={"large text-primary"}>Dashboard</h1>
         <p className={"lead"}>
