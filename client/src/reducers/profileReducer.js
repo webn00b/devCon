@@ -90,7 +90,7 @@ export const getProfileById = (userId) => async (dispatch) => {
 }
 
 // GET github repos
-export const getGithub = (username) => async (dispatch) => {
+export const getGithubRepos = (username) => async (dispatch) => {
     try {
         const res = await axios.get(`/api/profile/github/${username}`)
         dispatch({
@@ -106,9 +106,9 @@ export const getGithub = (username) => async (dispatch) => {
 }
 
 
-//Create or update profile
+//Create or update profile //bugged!!!!!!!!
 export const createProfile = (formData, history, edit = false) => async (dispatch) => {
-
+    console.log('create or update profile')
     try {
 
         const config = {
