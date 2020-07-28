@@ -56,7 +56,7 @@ export const getCurrentProfile = () => async (dispatch) => {
 }
 
 
-// GET profiles
+// GET ALL profiles
 export const getProfiles = () => async (dispatch) => {
     dispatch({type: CLEAR_PROFILE}) // clear profile
     try {
