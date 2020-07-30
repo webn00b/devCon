@@ -4,12 +4,14 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {logout} from '../../reducers/authReducer'
 
-const Navbar = ({auth:{isAuthenticated,loading},logout}) => {
+const Navbar = ({auth: {isAuthenticated, loading}, logout}) => {
 
-    const authLinks=(
+    const authLinks = (
         <ul>
             <li><Link to="/profiles">
-                 Developers</Link></li>
+                Developers</Link></li>
+            <li><Link to="/posts">
+                <i className={'fas fa-user'}/>{' '}Posts</Link></li>
             <li><Link to="/dashboard">
                 <i className={'fas fa-user'}/>{' '}Dashboard</Link></li>
             <li><a href={'#!'} onClick={logout}>
@@ -20,7 +22,7 @@ const Navbar = ({auth:{isAuthenticated,loading},logout}) => {
         </ul>
     )
 
-    const guestLinks=(
+    const guestLinks = (
         <ul>
             <li><Link to="/profiles">Developers</Link></li>
             <li><Link to="/register">Register</Link></li>
@@ -30,21 +32,21 @@ const Navbar = ({auth:{isAuthenticated,loading},logout}) => {
 
     return (
         <nav className="navbar bg-dark">
-      <h1>
-        <Link to="/"><i className="fas fa-code"></i> DevCon</Link>
-      </h1>
+            <h1>
+                <Link to="/"><i className="fas fa-code"></i> DevCon</Link>
+            </h1>
 
-            {!loading&&(<>{isAuthenticated ? authLinks:guestLinks}</>)}
-    </nav>
+            {!loading && (<>{isAuthenticated ? authLinks : guestLinks}</>)}
+        </nav>
     )
 }
 
-const mapStateToProps=state=>({
-    auth:state.authReducer
+const mapStateToProps = state => ({
+    auth: state.authReducer
 })
-Navbar.propTypes={
-    logout:PropTypes.func.isRequired,
-    auth:PropTypes.object.isRequired
+Navbar.propTypes = {
+    logout: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps,{logout})(Navbar)
+export default connect(mapStateToProps, {logout})(Navbar)
