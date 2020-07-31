@@ -3,19 +3,19 @@ import PropTypes from 'prop-types'
 import {Link} from "react-router-dom";
 import Moment from "react-moment";
 import {connect} from 'react-redux'
-import {addLike,removeLike} from "../../reducers/postReducer";
+import {addLike,removeLike,deletePost} from "../../reducers/postReducer";
 
-const PostItem=({auth,post:{_id,text,name,avatar,user,likes,comments,date},addLike,removeLike})=>{
+const PostItem=({auth,post:{_id,text,name,avatar,user,likes,comments,date},addLike,removeLike,deletePost})=>{
     return <div className="post bg-white p-1 my-1">
         <div>
-            <a href="profile.html">
+            <Link to={`/profile/${user}`}>
                 <img
                     className="round-img"
                     src={avatar}
                     alt=""
                 />
                 <h4>{name}</h4>
-            </a>
+            </Link>
         </div>
         <div>
             <p className="my-1">
@@ -37,7 +37,7 @@ const PostItem=({auth,post:{_id,text,name,avatar,user,likes,comments,date},addLi
                 Discussion {comments.length>0&&(<span className='comment-count'>{comments.length}</span>)}
            </Link>
             {!auth.loading&&user===auth.user._id&&(
-                <button
+                <button onClick={e=>deletePost(_id)}
                     type="button"
                     className="btn btn-danger"
                 >
@@ -49,8 +49,12 @@ const PostItem=({auth,post:{_id,text,name,avatar,user,likes,comments,date},addLi
     </div>
 }
 
+PostItem.propTypes={
+
+}
+
 const mapStateToProps=(state)=>({
     auth:state.authReducer
 })
 
-export default connect(mapStateToProps,{addLike,removeLike})( PostItem)
+export default connect(mapStateToProps,{addLike,removeLike,deletePost})( PostItem)
