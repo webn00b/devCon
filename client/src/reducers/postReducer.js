@@ -2,7 +2,7 @@ import axios from 'axios'
 import{set_alert} from "./alertReducer";
 import {
     ADD_POST,
-    DELETE_POST,
+    DELETE_POST, GET_POST,
     GET_POSTS,
     POST_ERROR, PROFILE_ERROR, UPDATE_LIKES
 } from './actions-types'
@@ -23,6 +23,8 @@ export default function (state = initialState, action) {
             }
         case POST_ERROR:
             return {...state,error: payload,loading: false}
+        case GET_POST:
+            return {...state,post: payload,loading: false}
         case UPDATE_LIKES:
             return {...state,posts: state.posts.map(post=>post._id===payload.id?{...post,likes: payload.likes}:post),loading: false}
         case DELETE_POST:
@@ -34,7 +36,7 @@ export default function (state = initialState, action) {
 
 }
 //actions
-
+//get posts
 export const getPosts=()=>async (dispatch)=>{
     try {
         const res = await axios.get(`api/post`)
@@ -111,6 +113,21 @@ export const addPost=(formData)=>async (dispatch)=>{
             payload:res.data
         })
         dispatch(set_alert('Post Created','succes'))
+    }catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {msg: err.response.statusText, status: err.response.status}
+        })
+    }
+}
+//get post
+export const getPost=(id)=>async (dispatch)=>{
+    try {
+        const res = await axios.get(`api/post/${id}`)
+        dispatch({
+            type:GET_POST,
+            payload:res.data
+        })
     }catch (err) {
         dispatch({
             type: PROFILE_ERROR,

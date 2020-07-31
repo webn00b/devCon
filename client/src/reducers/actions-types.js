@@ -19,5 +19,6 @@ export const POST_ERROR='POSTS/POST_ERROR'
 export const UPDATE_LIKES='POSTS/UPDATE_LIKES'
 export const DELETE_POST='POSTS/DELETE_POST'
 export const ADD_POST='POSTS/ADD_POST'
+export const GET_POST='POSTS/GET_POST'
 
 
