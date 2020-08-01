@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {getPost} from "../../reducers/postReducer";
 import Spinner from "../layouts/Spinner";
-import PostItem from "../posts/PostItem";
+// import PostItem from "../posts/PostItem";
 import {Link} from "react-router-dom";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
@@ -15,8 +15,8 @@ const Post = ({getPost,post:{post,loading},match})=>{
     },[getPost])
 
     return loading || post === null ? <Spinner/> : (<>
-        <Link to={'/posts'} classname={"btn"}>Back to Posts</Link>
-        <PostItem showActions={true}/>
+        <Link to={'/posts'} className={"btn"}>Back to Posts</Link>
+        {/*<PostItem showActions={true}/>*/}
         <CommentForm postId={post._id}/>
         <div className={"comments"}>{
             post.comments.map(comment=>(

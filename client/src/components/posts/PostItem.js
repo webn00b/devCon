@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 import {Link} from "react-router-dom";
 import Moment from "react-moment";
 import {connect} from 'react-redux'
-import {addLike,removeLike,deletePost} from "../../reducers/postReducer";
+import {addLike, removeLike, deletePost} from "../../reducers/postReducer";
 
-const PostItem=({
-                    auth,
-                    post:{_id,text,name,avatar,user,likes,comments,date},
-                    addLike,
-                    removeLike,
-                    deletePost,
-                    showActions
-                })=>{
+const PostItem = ({
+                      auth,
+                      post: {_id, text, name, avatar, user, likes, comments, date},
+                      addLike,
+                      removeLike,
+                      deletePost,
+                      showActions
+                  }) => {
     return <div className="post bg-white p-1 my-1">
         <div>
             <Link to={`/profile/${user}`}>
@@ -31,21 +31,21 @@ const PostItem=({
             <p className="post-date">
                 {<Moment format={"YYYY/MM/DD"}/>}
             </p>
-            {showActions&&<>
-                <button onClick={e=>addLike(_id)} type="button" className="btn btn-light">
+            {showActions && <>
+                <button onClick={e => addLike(_id)} type="button" className="btn btn-light">
                     <i className="fas fa-thumbs-up"></i>
-                    <span>{likes.length>0&&(
+                    <span>{likes.length > 0 && (
                         <span className={"comment-count"}>{likes.length}</span>
-                    ) }</span>
+                    )}</span>
                 </button>
-                <button onClick={e=>removeLike(_id)} type="button" className="btn btn-light">
+                <button onClick={e => removeLike(_id)} type="button" className="btn btn-light">
                     <i className="fas fa-thumbs-down"></i>
                 </button>
-                <Link to={`/posts/${_id}`} className="btn btn-primary">
-                    Discussion {comments.length>0&&(<span className='comment-count'>{comments.length}</span>)}
+                <Link to={`/post/${_id}`} className="btn btn-primary">
+                    Discussion {comments.length > 0 && (<span className='comment-count'>{comments.length}</span>)}
                 </Link>
-                {!auth.loading&&user===auth.user._id&&(
-                    <button onClick={e=>deletePost(_id)}
+                {!auth.loading && user === auth.user._id && (
+                    <button onClick={e => deletePost(_id)}
                             type="button"
                             className="btn btn-danger"
                     >
@@ -58,16 +58,21 @@ const PostItem=({
     </div>
 }
 
-PostItem.defaultProps={
-    showActions:true
+PostItem.defaultProps = {
+    showActions: true
 }
 
-PostItem.propTypes={
-
+PostItem.propTypes = {
+    auth:PropTypes.object.isRequired,
+    post: PropTypes.object.isRequired,
+    addLike:PropTypes.func.isRequired,
+    removeLike:PropTypes.func.isRequired,
+    deletePost:PropTypes.func.isRequired,
+    showActions:PropTypes.bool.isRequired
 }
 
-const mapStateToProps=(state)=>({
-    auth:state.authReducer
+const mapStateToProps = (state) => ({
+    auth: state.authReducer
 })
 
-export default connect(mapStateToProps,{addLike,removeLike,deletePost})( PostItem)
+export default connect(mapStateToProps, {addLike, removeLike, deletePost})(PostItem)

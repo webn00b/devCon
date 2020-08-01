@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from "react-router-dom";
 import Moment from "react-moment";
 import {deleteComment} from "../../reducers/postReducer";
-
+import PropTypes from 'prop-types'
 const CommentItem = ({postId, comment: {_id, text, name, avatar, user, date}, auth}) => {
     return (
         <div className="post bg-white p-1 my-1">
@@ -33,7 +33,7 @@ const CommentItem = ({postId, comment: {_id, text, name, avatar, user, date}, au
 }
 
 CommentItem.propTypes = {
-    postId: PropTypes.number.isRequired,
+    postId: PropTypes.string.isRequired,
     comment: PropTypes.object.isRequired,
     deleteComment: PropTypes.func.isRequired
 }
