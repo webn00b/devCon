@@ -43,7 +43,7 @@ devCon/
 
 1. **Клонируйте репозиторий:**
    ```bash
-   git clone <ссылка>
+   git clone git@github.com:webn00b/devCon.git
    cd devCon
    ```
 
